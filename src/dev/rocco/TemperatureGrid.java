@@ -1,24 +1,20 @@
 package dev.rocco;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 public class TemperatureGrid
 {
     private double [][] temps;
+    public static double [][] myTemps = {{95.5,100.0,100.0,100.0,100.0,110.3},{0.0,50.0,50.0,50.0,50.0,0.0},
+            {0.0,40.0,40.0,40.0,40.0,0.0}, {0.0,20.0,20.0,20.0,20.0,0.0},{0.0,0.0,0.0,0.0,0.0,0.0}};
 
     public TemperatureGrid(double [][]nums)
     {
         temps = nums;
     }
 
-    private boolean updateAllTemps(double tolerance)
-    {
-        return false;
-    }
-
     public static void main(String[] y)
     {
-        double [][] myTemps = {{95.5,100.0,100.0,100.0,100.0,110.3},{0.0,50.0,50.0,50.0,50.0,0.0},
-                {0.0,40.0,40.0,40.0,40.0,0.0}, {0.0,20.0,20.0,20.0,20.0,0.0},{0.0,0.0,0.0,0.0,0.0,0.0}};
         print2DArray(myTemps);
         TemperatureGrid myGrid = new TemperatureGrid(myTemps);
         System.out.println(myGrid.computeTemp(2,3));
@@ -26,17 +22,46 @@ public class TemperatureGrid
         System.out.println(myGrid.computeTemp(0,2));
         System.out.println(myGrid.computeTemp(1,3));
         //print2DArray(myGrid.temps);
-
-
-
+        myGrid.updateAllTemps(0.0);
     }
-    private double computeTemp(int row, int col)
-    {
-        if (row == 0 || row == 4) {
-            double[][] newArray;
+
+    private double computeTemp(int row, int col) {
+        double newNum = 0.0;
+        if (row == 0 || row == 4 || col == 0 || col == 5) {
+            newNum = myTemps[row][col];
+        } else {
+            newNum = findArithmeticMean(row, col);
         }
-        return 0;
+        return newNum;
     }
+
+    public static double findArithmeticMean(int a, int b) {
+        //Find number above, below, right, and left
+        double above = myTemps[a - 1][b];
+        double below = myTemps[a + 1][b];
+        double left = myTemps[a][b - 1];
+        double right = myTemps[a][b + 1];
+        //Calculate mean for numbers
+        double mean = (above + below + left + right) / 4.0;
+        return mean;
+    }
+
+    private boolean updateAllTemps(double tolerance)
+    {
+        ArrayList<Double> newGrid = new ArrayList<Double>();
+        for(int index = 0; index < myTemps.length; index++)
+        {
+            for(int index2 = 0; index2 < myTemps[0].length; index2++)
+            {
+                newGrid[index][index2] = computeTemp(index, index2);
+            }
+            System.out.println();
+        }
+        System.out.println();
+        print2DArray(newGrid);
+        return false;
+    }
+
 
     public static void print2DArray(double [][]nums)
     {
