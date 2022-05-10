@@ -9,19 +9,16 @@ public class TemperatureGrid
     {
         temps = nums;
     }
-    private double computeTemp(int row, int col)
-    {
-        return 0.0;
-    }
+
     private boolean updateAllTemps(double tolerance)
     {
         return false;
     }
+
     public static void main(String[] y)
     {
-        double [][] myTemps = {{95.5,100.0,100.0,100.0,100.0,110.3},
-                {0.0,50.0,50.0,50.0,50.0,0.0},{0.0,40.0,40.0,40.0,40.0,0.0},
-                {0.0,20.0,20.0,20.0,20.0,0.0},{0.0,0.0,0.0,0.0,0.0,0.0}};
+        double [][] myTemps = {{95.5,100.0,100.0,100.0,100.0,110.3},{0.0,50.0,50.0,50.0,50.0,0.0},
+                {0.0,40.0,40.0,40.0,40.0,0.0}, {0.0,20.0,20.0,20.0,20.0,0.0},{0.0,0.0,0.0,0.0,0.0,0.0}};
         print2DArray(myTemps);
         TemperatureGrid myGrid = new TemperatureGrid(myTemps);
         System.out.println(myGrid.computeTemp(2,3));
@@ -33,13 +30,21 @@ public class TemperatureGrid
 
 
     }
+    private double computeTemp(int row, int col)
+    {
+        if (row == 0 || row == 4) {
+            double[][] newArray;
+        }
+        return 0;
+    }
+
     public static void print2DArray(double [][]nums)
     {
         for(int index = 0; index < nums.length; index++)
         {
-            for(int index2 = 0;index2 < nums[0].length;index2++)
+            for(int index2 = 0; index2 < nums[0].length; index2++)
             {
-                System.out.print(nums[index][index2] + "\t");
+                System.out.print(nums[index][index2] + "  ");
             }
             System.out.println();
         }
