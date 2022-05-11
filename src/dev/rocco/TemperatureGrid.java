@@ -2,6 +2,9 @@ package dev.rocco;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static java.lang.Math.abs;
+
 public class TemperatureGrid
 {
     private double [][] temps;
@@ -20,9 +23,8 @@ public class TemperatureGrid
         System.out.println(myGrid.computeTemp(2,3));
         System.out.println(myGrid.computeTemp(1,1));
         System.out.println(myGrid.computeTemp(0,2));
-        System.out.println(myGrid.computeTemp(1,3));
-        //print2DArray(myGrid.temps);
-        myGrid.updateAllTemps(0.0);
+        System.out.println(myGrid.computeTemp(3,4));
+        System.out.println(myGrid.updateAllTemps(0.9));
     }
 
     private double computeTemp(int row, int col) {
@@ -46,20 +48,27 @@ public class TemperatureGrid
         return mean;
     }
 
+    public static double[][] newGrid = {{0.0,0.0,0.0,0.0,0.0,0.0},{0.0,0.0,0.0,0.0,0.0,0.0},
+            {0.0,0.0,0.0,0.0,0.0,0.0}, {0.0,0.0,0.0,0.0,0.0,0.0},{0.0,0.0,0.0,0.0,0.0,0.0}};
+
     private boolean updateAllTemps(double tolerance)
     {
-        ArrayList<Double> newGrid = new ArrayList<Double>();
+        boolean bool = true;
+        double difference;
         for(int index = 0; index < myTemps.length; index++)
         {
             for(int index2 = 0; index2 < myTemps[0].length; index2++)
             {
+                difference = newGrid[index][index2] - computeTemp(index, index2);
+                if (!(abs(difference) <= tolerance)) {
+                    bool = false;
+                }
                 newGrid[index][index2] = computeTemp(index, index2);
             }
-            System.out.println();
         }
-        System.out.println();
+        System.out.println("\nNew Grid:");
         print2DArray(newGrid);
-        return false;
+        return bool;
     }
 
 
